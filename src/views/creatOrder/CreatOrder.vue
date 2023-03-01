@@ -47,6 +47,7 @@ export default {
     })
     const onEdit = () => {
       showToast('edit')
+      router.push('/address')
     };
 
     const initPrice = () => {
@@ -78,6 +79,7 @@ export default {
           return !route.query.list.includes(item.id + "")
         })
         store.commit('delete',newList)
+        store.commit('orderListEnd')
         router.push('/order')
       })
     };

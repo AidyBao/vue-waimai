@@ -10,7 +10,7 @@ export default createStore({
         //购物车数据
         userAddress: [
             {
-                id: 1001,
+                id: 1,
                 name: 'jason',
                 tel: '15874859686',
                 province: '广东省',
@@ -21,7 +21,7 @@ export default createStore({
                 areaCode: '110101',
             },
             {
-                id: 1002,
+                id: 2,
                 name: 'allen',
                 tel: '15874859685',
                 province: '湖北省',
@@ -32,6 +32,15 @@ export default createStore({
                 areaCode: '110101',
             },
         ],
+        disabledList : [
+            {
+                id: '3',
+                name: '王五',
+                tel: '1320000000',
+                address: '浙江省杭州市滨江区江南大道 15 号',
+            },
+        ],
+        orderListEnd:[],
     },
     mutations: {
         addCart(state,value) {
@@ -52,7 +61,10 @@ export default createStore({
         },
         pay(state,value) {
             state.orderList = value
-        }
+        },
+        orderListEnd(state,value) {
+            state.orderListEnd = state.orderListEnd.concat(state.orderList)
+        },
     },
     actions: {
 
