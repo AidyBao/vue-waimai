@@ -1,10 +1,11 @@
 <template>
-  <navigation title="编辑地址"/>
+  <navigation :title="address"/>
   <van-address-edit
       :area-list="areaList"
       show-delete
       show-set-default
       show-search-result
+      :address-info="addressInfo"
       :search-result="searchResult"
       :area-columns-placeholder="['请选择', '请选择', '请选择']"
       @save="onSave"
@@ -17,9 +18,10 @@
 <script>
 import Navigation from "@/components/Navigation.vue";
 import {useStore} from "vuex";
-import {useRouter} from "vue-router";
+import {useRouter,useRoute} from "vue-router";
 import {showToast} from "vant";
-import {reactive, toRefs} from "vue";
+import {computed, onMounted, reactive, toRefs} from "vue";
+
 export default {
   name: "addressEdit",
   components: {
@@ -28,7 +30,9 @@ export default {
   setup() {
     let store = useStore()
     let router = useRouter()
+    let route = useRoute()
     const data = reactive({
+      addressInfo: {},
       areaList:{
         province_list: {
           110000: "广东省",
@@ -48,21 +52,51 @@ export default {
         }
       }
     })
-    const onSave = () => {
-      showToast('save');
+
+    const address = computed(() => {
+        return route.query.type === 'add' ? "新增地址":"编辑地址"
+    })
+
+
+    const init = () => {
+      store.state.userAddress.forEach((item)=> {
+        if(item.id === Number(route.query.id)) {
+          data.addressInfo = item
+        }
+      })
     }
-    const onDelete = () => {
-      showToast('delete');
+    const onSave = (content) => {
+      if (route.query.type === 'add') {
+        store.commit('addAddress', content)
+      }else {
+        store.commit('editAddress', content)
+      }
+      showToast("保存成功")
+      setTimeout(() => {
+        router.back()
+      },1000)
+    }
+    const onDelete = (content) => {
+      store.commit('deleteAddress', content)
+      showToast("删除成功")
+      setTimeout(() => {
+        router.back()
+      },1000)
     }
     const onChangeDetail = (val) => {
 
     };
+
+    onMounted(()=> {
+      init();
+    })
 
     return {
       onSave,
       onDelete,
       onChangeDetail,
       ...toRefs(data),
+      address,
     }
   }
 }

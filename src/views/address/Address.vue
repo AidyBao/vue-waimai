@@ -51,11 +51,22 @@ export default {
 
     const onAdd = () => {
       showToast('新增地址')
-      router.push('addressEdit')
+      router.push({
+        path:"addressEdit",
+        query: {
+          type: "add",
+        }
+      })
     };
     const onEdit = (item, index) => {
       showToast('编辑地址:' + index);
-      router.push('addressEdit')
+      router.push({
+        path: "addressEdit",
+        query: {
+          id: item.id,
+          type: "edit",
+        }
+      })
     }
 
     return {

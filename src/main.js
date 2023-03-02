@@ -49,6 +49,8 @@ import 'vant/es/dialog/style'
 import { AddressList } from 'vant';
 /**地址编辑*/
 import { AddressEdit } from 'vant';
+/** 表单*/
+import { Form, Field, CellGroup } from 'vant';
 
 const app = createApp(App)
 app.use(router);
@@ -71,4 +73,7 @@ app.use(Card);
 app.use(Dialog);
 app.use(AddressList);
 app.use(AddressEdit);
+app.use(Form);
+app.use(Field);
+app.use(CellGroup);
 app.mount('#app')

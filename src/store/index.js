@@ -10,7 +10,7 @@ export default createStore({
         //购物车数据
         userAddress: [
             {
-                id: 1,
+                id: 1001,
                 name: 'jason',
                 tel: '15874859686',
                 province: '广东省',
@@ -21,7 +21,7 @@ export default createStore({
                 areaCode: '110101',
             },
             {
-                id: 2,
+                id: 1002,
                 name: 'allen',
                 tel: '15874859685',
                 province: '湖北省',
@@ -64,6 +64,30 @@ export default createStore({
         },
         orderListEnd(state,value) {
             state.orderListEnd = state.orderListEnd.concat(state.orderList)
+        },
+        addAddress(state, value) {
+            state.userAddress.map((item) => {
+                if (value.isDefault) {
+                    item.isDefault = false
+                }
+            })
+            state.userAddress.push(value)
+        },
+        editAddress(state, value) {
+            state.userAddress = state.userAddress.map((item) => {
+                if (value.isDefault) {
+                    item.isDefault = false
+                }
+                return item.id === value.id ? value : item
+            })
+        },
+        deleteAddress(state, value) {
+            state.userAddress = state.userAddress.filter((item) => {
+                return !(item.id === value.id)
+            })
+            if (value.isDefault) {
+                state.userAddress[0].isDefault = true
+            }
         },
     },
     actions: {
