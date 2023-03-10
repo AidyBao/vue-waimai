@@ -1,6 +1,6 @@
 //跨组件通讯
-import { createStore } from 'vuex'
-
+import { createStore, storeKey } from 'vuex'
+import mutations from "@/store/mutations";
 export default createStore({
     state: {
         cartList: [],//购物车数据
@@ -42,54 +42,7 @@ export default createStore({
         ],
         orderListEnd:[],
     },
-    mutations: {
-        addCart(state,value) {
-            state.cartList= value
-        },
-        changeDelete(state) {
-            state.isDelete = !state.isDelete
-        },
-        delete(state,value) {
-            state.cartList = value
-        },
-        edit(state,value) {
-            if (value) {
-                state.edit = true
-            }else {
-                state.edit = !state.edit
-            }
-        },
-        pay(state,value) {
-            state.orderList = value
-        },
-        orderListEnd(state,value) {
-            state.orderListEnd = state.orderListEnd.concat(state.orderList)
-        },
-        addAddress(state, value) {
-            state.userAddress.map((item) => {
-                if (value.isDefault) {
-                    item.isDefault = false
-                }
-            })
-            state.userAddress.push(value)
-        },
-        editAddress(state, value) {
-            state.userAddress = state.userAddress.map((item) => {
-                if (value.isDefault) {
-                    item.isDefault = false
-                }
-                return item.id === value.id ? value : item
-            })
-        },
-        deleteAddress(state, value) {
-            state.userAddress = state.userAddress.filter((item) => {
-                return !(item.id === value.id)
-            })
-            if (value.isDefault) {
-                state.userAddress[0].isDefault = true
-            }
-        },
-    },
+    mutations,
     actions: {
 
     },

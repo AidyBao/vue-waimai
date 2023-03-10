@@ -1,5 +1,8 @@
 import { createApp } from 'vue'
 import App from './App.vue'
+
+/** 模拟数据*/
+import './api/mock'
 /** vuex跨组件保存数据*/
 import store from "@/store";
 /** rem转换*/
@@ -51,9 +54,12 @@ import { AddressList } from 'vant';
 import { AddressEdit } from 'vant';
 /** 表单*/
 import { Form, Field, CellGroup } from 'vant';
+/** ElementPlus*/
+import ElementPlus from 'element-plus'
 
 const app = createApp(App)
 app.use(router);
+app.use(ElementPlus)
 app.use(store);
 app.use(Button);
 app.use(Icon);

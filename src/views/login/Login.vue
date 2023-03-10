@@ -6,7 +6,7 @@
       <van-cell-group inset>
         <van-field
             v-model="username"
-            name="用户名"
+            name="user"
             label="用户名"
             placeholder="用户名"
             :rules="[{ required: true, message: '请填写用户名' }]"
@@ -14,7 +14,7 @@
         <van-field
             v-model="password"
             type="password"
-            name="密码"
+            name="pass"
             label="密码"
             placeholder="密码"
             :rules="[{ required: true, message: '请填写密码' }]"
@@ -27,7 +27,6 @@
             type="primary"
             color="#ffc400"
             native-type="submit"
-            @click="onSubmit"
         >
           登陆
         </van-button>
@@ -51,6 +50,7 @@
 import Navigation from "@/components/Navigation.vue";
 import {reactive, toRefs} from "vue";
 import { useRouter } from "vue-router";
+import {showToast} from "vant";
 
 export default {
   name: "Login",
@@ -63,11 +63,28 @@ export default {
       username : "",
       password : "",
     })
-    const onSubmit = (values) => {
-      console.log('submit', values);
+    const onSubmit = (value) => {
+      console.log("onSubmit")
+      if(!localStorage.userInfo) {
+        showToast("账号未注册")
+        return
+      }else {
+        let userInfo = JSON.parse(localStorage.userInfo)
+        if (userInfo['user'] === value['user']){
+          if(userInfo['pass'] === value['pass']) {
+            showToast("登陆成功")
+            localStorage.setItem("isLogin", "login")
+            router.push('/home')
+          }else{
+            showToast("密码错误")
+          }
+        }else {
+          showToast("账号不存在")
+        }
+      }
     };
 
-    const toRegister = (values) => {
+    const toRegister = (value) => {
       router.push("/register")
     };
 
